@@ -1,6 +1,7 @@
 import numpy as np
+from model.Model import Model
 
-class Perceptron(object):
+class Perceptron(Model):
     """パーセプトロンの分類器
 
     パラメータ
@@ -21,16 +22,15 @@ class Perceptron(object):
     """
 
     def __init__(self, eta=0.01, n_iter=50, random_state=1) -> None:
-        self.eta = eta
-        self.n_iter = n_iter
+        super().__init__(eta, n_iter)
         self.random_state = random_state
 
-    def fit(self, X, y) -> object:
-        """_summary_
+    def fit(self, X, y) -> Model:
+        """訓練を実行
 
         Args:
-            X (object): _description_
-            y (object): _description_
+            X (np.ndarray): 説明変数
+            y (np.ndarray): 目的変数
         """
 
         rgen = np.random.RandomState(self.random_state)
@@ -61,7 +61,7 @@ class Perceptron(object):
         """総入力を計算
 
         Args:
-            X (object):
+            X (np.ndarray):
         """
 
         return np.dot(X, self.w_[1:]) + self.w_[0]
@@ -70,7 +70,7 @@ class Perceptron(object):
         """ステップ後のクラスラベルを返す
 
         Args:
-            X (object): _description_
+            X (np.ndarray): _description_
         """
 
         return np.where(self.net_input(X) >= 0.0, 1, -1)
